@@ -1,23 +1,16 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-
 import { env } from './utils/env.js';
-import contactsRouter from './routes/contacts.js';
-import { errorHandler } from './middlewares/errorHandler.js';
-import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import contactsRouter from './routers/contacts.js';
+import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js';
 
-const PORT = Number(env('PORT', '3000'));
-
-export const startServer = () => {
+export const setupServer = () => {
   const app = express();
+  // const PORT = 3000(process.env.PORT);
+  const PORT = Number(env('PORT', '3000'));
 
-  app.use(
-    express.json({
-      type: ['application/json', 'application/vnd.api+json'],
-      limit: '100kb',
-    }),
-  );
+  app.use(express.json());
   app.use(cors());
 
   app.use(
@@ -27,6 +20,17 @@ export const startServer = () => {
       },
     }),
   );
+
+  app.use((req, res, next) => {
+    console.log(`Time: ${new Date().toLocaleString()}`);
+    next();
+  });
+
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Hello world!',
+    });
+  });
 
   app.use(contactsRouter);
 
