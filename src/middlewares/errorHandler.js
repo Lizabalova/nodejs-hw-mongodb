@@ -9,9 +9,18 @@ export const errorHandler = (err, req, res, next) => {
     });
     return;
   }
+
   res.status(500).json({
     status: 500,
     message: 'Something went wrong',
-    error: err.message,
+    data: err.message,
   });
+  next();
+};
+
+export const notFoundHandler = (err, req, res, next) => {
+  res.status(404).json({
+    message: 'Route not found',
+  });
+  next();
 };
