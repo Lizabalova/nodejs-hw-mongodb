@@ -11,9 +11,9 @@ import {
 export const getContactsController = async (req, res) => {
   const contacts = await getAllContacts();
 
-  res.status(200).json({
+  res.json({
     status: 200,
-    message: `Success!`,
+    message: 'Successfully found contacts!',
     data: contacts,
   });
 };

@@ -29,7 +29,7 @@ export const startServer = () => {
   );
 
   app.use(contactsRouter);
-
+  
   app.use('*', notFoundHandler);
 
   app.use(errorHandler);
