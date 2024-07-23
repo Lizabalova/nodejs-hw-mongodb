@@ -1,5 +1,4 @@
 import createHttpError from 'http-errors';
-
 import {
   createContact,
   deleteContact,
@@ -23,7 +22,12 @@ export const getContactByIdController = async (req, res) => {
   const contact = await getContactById(contactId);
 
   if (!contact) {
-    throw createHttpError(404, 'Contact not found');
+    res.status(404).json({
+      status: 404,
+      message: 'Contact not found',
+      data: null,
+    });
+    return;
   }
 
   res.status(200).json({
@@ -38,7 +42,7 @@ export const createContactController = async (req, res) => {
 
   res.status(201).json({
     status: 201,
-    message: `Successfully created a contact!`,
+    message: 'Successfully created a contact!',
     data: contact,
   });
 };
@@ -49,10 +53,19 @@ export const deleteContactController = async (req, res, next) => {
   const contact = await deleteContact(contactId);
 
   if (!contact) {
-    next(createHttpError(404, 'Contact not found'));
+    res.status(404).json({
+      status: 404,
+      message: 'Contact not found',
+      data: null,
+    });
     return;
   }
-  res.status(204).send();
+
+  res.status(204).json({
+    status: 204,
+    message: 'Successfully deleted contact!',
+    data: null,
+  });
 };
 
 export const patchContactController = async (req, res, next) => {
@@ -61,7 +74,11 @@ export const patchContactController = async (req, res, next) => {
   const result = await updateContact(contactId, req.body);
 
   if (!result) {
-    next(createHttpError(404, 'Contact not found'));
+    res.status(404).json({
+      status: 404,
+      message: 'Contact not found',
+      data: null,
+    });
     return;
   }
 
