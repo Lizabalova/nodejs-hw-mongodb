@@ -12,7 +12,7 @@ const ContactSchema = new Schema(
     },
     email: {
       type: String,
-      optional: true,
+      required: false,
     },
     isFavourite: {
       type: Boolean,
@@ -26,12 +26,8 @@ const ContactSchema = new Schema(
     },
   },
   {
-    createdAt: {
-      timestamps: true,
-    },
-    updatedAt: {
-      timestamps: true,
-    },
+    timestamps: true,
+    versionKey: false,
   },
 );
 
