@@ -1,38 +1,38 @@
-import { model, Schema } from 'mongoose';
+import mongoose from "mongoose";
 
-const ContactSchema = new Schema(
-  {
+const { Schema, model } = mongoose;
+
+const contactSchema = new Schema({
     name: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     phoneNumber: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     email: {
-      type: String,
-      // optional: true,
+        type: String,
+        required: false,
     },
     isFavourite: {
-      type: Boolean,
-      default: false,
+        type: Boolean,
+        default: true,
     },
     contactType: {
-      type: String,
-      required: true,
-      default: 'personal',
-      enum: ['work', 'home', 'personal'],
+        type: String,
+        required: true,
+        enum: ['home', 'personal', 'work'],
+        default: 'personal',
     },
-  },
-  {
-    createdAt: {
-      timestamps: true,
-    },
-    updatedAt: {
-      timestamps: true,
-    },
-  },
+},
+    { timestamps: true, versionKey: false },
 );
 
-export const Contact = model('contacts', ContactSchema);
+//this is middleware
+contactSchema.post("save", (err, data, next) => {
+    err.status = 400;
+    next();
+});
+
+export const ContactsCollection = model('contacts', contactSchema);
