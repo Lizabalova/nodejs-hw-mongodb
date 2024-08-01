@@ -10,8 +10,11 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { validateObjectId } from '../middlewares/validateObjectId.js'; // Import the new middleware
 import { createContactSchema, updateContactSchema } from '../validation/contacts.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
-const router = Router();
+export const contactsRouter = Router();
+
+contactsRouter.use(authenticate);
 
 router.get('/contacts', ctrlWrapper(getContactsController));
 router.get('/contacts/:contactId', validateObjectId, ctrlWrapper(getContactsByIdController));
