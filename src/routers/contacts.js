@@ -8,13 +8,13 @@ import {
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { validateObjectId } from '../middlewares/validateObjectId.js'; // Import the new middleware
+import { validateObjectId } from '../middlewares/contactId.js'; // Import the new middleware
 import { createContactSchema, updateContactSchema } from '../validation/contacts.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
-export const contactsRouter = Router();
+export const router = Router();
 
-contactsRouter.use(authenticate);
+router.use(authenticate);
 
 router.get('/contacts', ctrlWrapper(getContactsController));
 router.get('/contacts/:contactId', validateObjectId, ctrlWrapper(getContactsByIdController));
