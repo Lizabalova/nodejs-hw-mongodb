@@ -15,7 +15,6 @@ export const setupServe = () => {
 
     app.use(express.json());
     app.use(cors());
-
     app.use(
         pino({
             transport: {
@@ -25,14 +24,8 @@ export const setupServe = () => {
     );
     app.use(cookieParser());
     app.use(router);
-
-
     app.use('*', notFoundHandler);
-
     app.use(errorHandler);
-
-
-
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });
