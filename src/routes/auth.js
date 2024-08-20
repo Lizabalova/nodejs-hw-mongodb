@@ -20,6 +20,13 @@ const router = express.Router();
 const parseJSON = express.json();
 
 router.post(
+  '/request-reset-email',
+  parseJSON,
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
+
+router.post(
   '/register',
   parseJSON,
   validateBody(registerUserSchema),
