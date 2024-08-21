@@ -51,16 +51,26 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactController = async (req, res) => {
-  const contactData = {
-    ...req.body,
-    userId: req.user._id,
-  };
-  const contact = await createContact(contactData);
+  const userId = req.user._id;
+  const contactInfo = { ...req.body, userId };
+  const photo = req.file;
+  console.log(photo);
+  let photoUrl;
 
+  if (photo) {
+      if (env('ENABLE_CLOUDINARY') === 'TRUE') {
+          photoUrl = await saveFileToCloudinary(photo);
+      } else {
+
+          photoUrl = await saveFileToUploadDir(photo);
+      }
+  }
+
+  const contact = await createContact({ ...contactInfo, photo: photoUrl });
   res.status(201).json({
-    status: 201,
-    message: `Successfully created a contact!`,
-    data: contact,
+      status: 201,
+      message: "Successfully created a contact!",
+      data: contact,
   });
 };
 
