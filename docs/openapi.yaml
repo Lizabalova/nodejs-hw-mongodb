@@ -13,7 +13,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  - url: https://swagger-contacts.onrender.com
+  - url: https://contacts-app-kpfb.onrender.com
 paths:
   /auth/register:
     post:
